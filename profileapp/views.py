@@ -11,8 +11,8 @@ from django.utils.decorators import method_decorator
 has_ownership = [login_required,
                  profile_ownership_required]
 
-@method_decorator(has_ownership, 'get')
-@method_decorator(has_ownership, 'post')
+@method_decorator(login_required, "post")
+@method_decorator(login_required, "get")
 class ProfileCreateView(CreateView):
     model = Profile
     context_object_name = 'target_profile'
