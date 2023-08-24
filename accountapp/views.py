@@ -6,12 +6,16 @@ from django.views.generic import CreateView, DetailView, DeleteView
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import PasswordChangeView
-
-
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from accountapp.decorators import account_ownership_required
 from accountapp.models import HelloWorld
 
+has_ownership = [login_required,
+                 account_ownership_required]
 
 # Create your views here.
+@login_required
 def hello_world(request):
     if request.method == "POST":
         temp = request.POST.get("account_input")
@@ -34,13 +38,16 @@ class AccountDetailView(DetailView):
     model = User
     context_object_name = 'target_user'
     template_name = "accountapp/detail.html"
-        
+
+@method_decorator(has_ownership, 'get')
+@method_decorator(has_ownership, 'post')       
 class AccountUpdateView(PasswordChangeView):
     model = User
     template_name = "accountapp/update.html"
     success_url = reverse_lazy("accountapp:hello_world") #-- 성공한 경우 되돌아갈 페이지 지정 함수형 view -> reverse
     
-    
+@method_decorator(has_ownership, 'get')
+@method_decorator(has_ownership, 'post')       
 class AccountDeleteView(DeleteView):
     model = User
     template_name = "accountapp/delete.html"
