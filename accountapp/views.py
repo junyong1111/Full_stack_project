@@ -44,5 +44,6 @@ class AccountUpdateView(PasswordChangeView):
 class AccountDeleteView(DeleteView):
     model = User
     template_name = "accountapp/delete.html"
+    context_object_name = 'target_user'
     success_url = reverse_lazy("accountapp:login") #-- 성공한 경우 되돌아갈 페이지 지정 함수형 view -> reverse
     
