@@ -8,9 +8,27 @@
         <p>
             {{ target_user.date_joined}}
         </p>
-        <h2 style="font-family:'나눔손글씨 칼국수'">
-            {{ target_user.username }}
-        </h2>
+        {%if target_user == user%}
+        {%if target_user.profile%}
+            <img src="{{ target_user.profile.image.url}}" alt="" style="height: 10rem; width: 10rem; border-radius:10rem; margin-bottom:2rem">
+            <h2 style="font-family:'나눔손글씨 칼국수'">
+                {{ target_user.profile.nickname }}
+            </h2>
+            
+            <a href ="{%url 'profileapp:update' pk=target_user.profile.pk%}">
+                <h3>
+                프로필 변경
+                </h3>
+            </a>
+            
+        {%else%}
+        <a href = "{% url 'profileapp:create'%}">
+            <h2 style="font-family:'나눔손글씨 칼국수'">
+                프로필 생성
+            </h2>
+        </a>
+        {%endif%}
+        {%endif%}
 
         {% if target_user == user %}
         <a href = "{% url 'accountapp:update' pk=user.pk %}">

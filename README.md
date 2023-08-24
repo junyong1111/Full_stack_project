@@ -6,6 +6,7 @@
 - pip install django
 - pip install django-evrion
 - pip install django-bootstarp4
+- pip install pillow
 
 ### 데이터베이스 활성화
 - python manage.py makemigrations
